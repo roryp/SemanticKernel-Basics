@@ -27,7 +27,7 @@ import soham.sksamples.util.KernelUtils;
  * "https://github.com/microsoft/semantic-kernel/blob/experimental-java/java/samples/sample-code/README.md">
  * README</a> for configuring your environment to run the examples.
  */
-public class Example51_StepwisePlanner {
+public class Example10_StepwisePlanner {
 
   // Fake a search engine skill so that users do not need to have a search engine API key to run this example
   public static class WebSearchEngineSkill {
@@ -98,7 +98,7 @@ public class Example51_StepwisePlanner {
     StepwisePlanner planner = new DefaultStepwisePlanner(kernel, null, null);
 
     Plan plan = planner.createPlan(question);
-    System.out.println("Question: " + plan.toPlanString());
+    System.out.println("Plan: " + plan.toPlanString());
 
     return plan.invokeAsync(SKBuilders.context().withKernel(kernel).build());
   }
