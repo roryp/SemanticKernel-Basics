@@ -30,11 +30,11 @@ public class Example09_ActionPlanner {
             ActionPlanner planner = new ActionPlanner(kernel, null);
 
             log.debug("== Example 1 : use Summarizer and Translator skills ==");
-          //  translate(planner);
+            translate(planner);
             log.debug("== Example 2 : use Rewrite skill ==");
             rewriteInAStyle(planner);
             log.debug("== Example 3 : use DesignThinking skill and compose an email ==");
-          //  designThinking(planner);
+            designThinking(planner);
         } catch (ConfigurationException | IOException e) {
             log.error("Problem in paradise", e);
         }

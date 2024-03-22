@@ -43,9 +43,9 @@ public class Example08_SequentialPlanner {
            log.debug("== Example 1 : use Summarizer and Translator skills ==");
            summarizeAndTranslate(planner);
             log.debug("== Example 2 : use Rewrite skill ==");
-           // rewriteInAStyle(planner);
+            rewriteInAStyle(planner);
             log.debug("== Example 3 : use DesignThinking skill and compose an email ==");
-            //designThinking(planner);
+            designThinking(planner);
         } catch (ConfigurationException | IOException e) {
             log.error("Problem in paradise", e);
         }
