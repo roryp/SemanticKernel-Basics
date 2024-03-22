@@ -8,6 +8,7 @@ import com.microsoft.semantickernel.SKBuilders;
 import com.microsoft.semantickernel.coreskills.TimeSkill;
 import com.microsoft.semantickernel.exceptions.ConfigurationException;
 import com.microsoft.semantickernel.orchestration.SKContext;
+import com.microsoft.semantickernel.planner.actionplanner.Plan;
 import com.microsoft.semantickernel.planner.stepwiseplanner.DefaultStepwisePlanner;
 import com.microsoft.semantickernel.planner.stepwiseplanner.StepwisePlanner;
 import com.microsoft.semantickernel.skilldefinition.annotations.DefineSKFunction;
@@ -96,7 +97,8 @@ public class Example51_StepwisePlanner {
 
     StepwisePlanner planner = new DefaultStepwisePlanner(kernel, null, null);
 
-    var plan = planner.createPlan(question);
+    Plan plan = planner.createPlan(question);
+    System.out.println("Question: " + plan.toPlanString());
 
     return plan.invokeAsync(SKBuilders.context().withKernel(kernel).build());
   }
