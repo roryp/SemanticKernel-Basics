@@ -15,62 +15,38 @@ import com.microsoft.semantickernel.planner.stepwiseplanner.DefaultStepwisePlann
 import com.microsoft.semantickernel.planner.stepwiseplanner.StepwisePlanner;
 import com.microsoft.semantickernel.textcompletion.TextCompletion;
 
-import reactor.core.publisher.Mono;
-
-
 public class DemoStepwisePlanner {
 
   public static void main(String[] args) throws ConfigurationException {
-
     String[] questions = new String[]{
         "create a poem about dogs, then translate it into French",
     };
 
     for (String question : questions) {
-      System.out.println("Result: " + runChatCompletion(question).block().getResult());
-    }
-  }
-
-  private static Mono<SKContext> runChatCompletion(String question) throws ConfigurationException {
-    System.out.println("RunChatCompletion");
-    var kernel = getKernel(true);
-    return runWithQuestion(kernel, question);
-  }
-
-  private static Mono<SKContext> runWithQuestion(Kernel kernel, String question) {
-
-    kernel.importSkillFromDirectory("WriterSkill", "src/main/resources/Skills", "WriterSkill");
-    kernel.importSkillFromDirectory("SummarizeSkill", "src/main/resources/Skills", "SummarizeSkill");
-    kernel.importSkillFromDirectory("DesignThinkingSkill", "src/main/resources/Skills", "DesignThinkingSkill");
-
-    System.out.println("*****************************************************");
-    System.out.println("Question: " + question);
-
-    StepwisePlanner planner = new DefaultStepwisePlanner(kernel, null, null);
-
-    Plan plan = planner.createPlan(question);
-    System.out.println("Plan: " + plan.toPlanString());
-
-    return plan.invokeAsync(SKBuilders.context().withKernel(kernel).build());
-  }
-
-  private static Kernel getKernel(boolean useChat) throws ConfigurationException {
-    OpenAIAsyncClient client = openAIAsyncClient();
-    TextCompletion textCompletion;
-
-      textCompletion = SKBuilders.chatCompletion()
+      // Create kernel
+      OpenAIAsyncClient client = OpenAIClientProvider.getWithAdditional(List.of(
+          new File("src/main/resources/conf.properties")), ClientType.AZURE_OPEN_AI);
+      TextCompletion textCompletion = SKBuilders.chatCompletion()
           .withOpenAIClient(client)
           .withModelId("gpt-4")
           .build();
+      Kernel kernel = SKBuilders.kernel()
+          .withDefaultAIService(textCompletion)
+          .build();
 
-    return SKBuilders.kernel()
-        .withDefaultAIService(textCompletion)
-        .build();
-  }
+      // Import skills
+      kernel.importSkillFromDirectory("WriterSkill", "src/main/resources/Skills", "WriterSkill");
+      kernel.importSkillFromDirectory("SummarizeSkill", "src/main/resources/Skills", "SummarizeSkill");
+      kernel.importSkillFromDirectory("DesignThinkingSkill", "src/main/resources/Skills", "DesignThinkingSkill");
 
-      public static OpenAIAsyncClient openAIAsyncClient() throws ConfigurationException {
-        return OpenAIClientProvider.getWithAdditional(List.of(
-                        new File("src/main/resources/conf.properties")), ClientType.AZURE_OPEN_AI);
+      // Create a stepwise planner
+      StepwisePlanner planner = new DefaultStepwisePlanner(kernel, null, null);
 
+      // Create a plan and execute it
+      Plan plan = planner.createPlan(question);
+      SKContext result = plan.invokeAsync(SKBuilders.context().withKernel(kernel).build()).block();
+
+      System.out.println("Result: " + result.getResult());
     }
+  }
 }
