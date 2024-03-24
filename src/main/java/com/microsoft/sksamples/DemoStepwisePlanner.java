@@ -1,9 +1,13 @@
-// Copyright (c) Microsoft. All rights reserved.
-package soham.sksamples;
+package com.microsoft.sksamples;
+
+import java.io.File;
+import java.util.List;
 
 import com.azure.ai.openai.OpenAIAsyncClient;
 import com.microsoft.semantickernel.Kernel;
 import com.microsoft.semantickernel.SKBuilders;
+import com.microsoft.semantickernel.connectors.ai.openai.util.ClientType;
+import com.microsoft.semantickernel.connectors.ai.openai.util.OpenAIClientProvider;
 import com.microsoft.semantickernel.exceptions.ConfigurationException;
 import com.microsoft.semantickernel.orchestration.SKContext;
 import com.microsoft.semantickernel.planner.actionplanner.Plan;
@@ -12,11 +16,9 @@ import com.microsoft.semantickernel.planner.stepwiseplanner.StepwisePlanner;
 import com.microsoft.semantickernel.textcompletion.TextCompletion;
 
 import reactor.core.publisher.Mono;
-import soham.sksamples.util.KernelUtils;
 
 
-public class Example10_StepwisePlanner {
-
+public class DemoStepwisePlanner {
 
   public static void main(String[] args) throws ConfigurationException {
 
@@ -53,7 +55,7 @@ public class Example10_StepwisePlanner {
   }
 
   private static Kernel getKernel(boolean useChat) throws ConfigurationException {
-    OpenAIAsyncClient client = KernelUtils.openAIAsyncClient();
+    OpenAIAsyncClient client = openAIAsyncClient();
     TextCompletion textCompletion;
 
       textCompletion = SKBuilders.chatCompletion()
@@ -65,4 +67,10 @@ public class Example10_StepwisePlanner {
         .withDefaultAIService(textCompletion)
         .build();
   }
+
+      public static OpenAIAsyncClient openAIAsyncClient() throws ConfigurationException {
+        return OpenAIClientProvider.getWithAdditional(List.of(
+                        new File("src/main/resources/conf.properties")), ClientType.AZURE_OPEN_AI);
+
+    }
 }
