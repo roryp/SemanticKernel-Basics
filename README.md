@@ -10,7 +10,7 @@ To get started with the project, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Copy the file `conf.properties.example` to `conf.properties` (located in the `src/main/resources` directory).
-3. Update the `azure.openai.key` and `azure.openai.url` properties with your Azure OpenAI key and URL respectively. These credentials are required to access the Semantic Kernel Planner API.
+3. Update the `client.azureopenai.key` and `client.azureopenai.endpoint` properties with your Azure OpenAI key and URL respectively. These credentials are required to access the Semantic Kernel Planner API.
 
 ## Usage
 
