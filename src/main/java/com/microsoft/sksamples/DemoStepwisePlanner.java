@@ -18,6 +18,16 @@ import com.microsoft.semantickernel.skilldefinition.annotations.SKFunctionInputA
 import com.microsoft.semantickernel.skilldefinition.annotations.SKFunctionParameters;
 import com.microsoft.semantickernel.textcompletion.TextCompletion;
 
+import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.awt.Desktop;
+
 public class DemoStepwisePlanner {
 
     public static void main(String[] args) throws ConfigurationException {
@@ -71,7 +81,55 @@ public class DemoStepwisePlanner {
             System.out.printf("Subject: %s%n", subject);
             System.out.printf("Message: %s%n", message);
             System.out.println("====================================================");
+
+            // Display the email content in a browser
+            String emailContent = "To: " + emailAddress + "\nSubject: " + subject + "\nMessage: " + message;
+            ResultDisplayServer server = new ResultDisplayServer();
+            try {
+                server.startServer(emailContent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return "Message sent";
+        }
+    }
+
+    static class ResultDisplayServer {
+        private HttpServer server;
+
+        public void startServer(String text) throws Exception {
+            server = HttpServer.create(new InetSocketAddress(8000), 0);
+            server.createContext("/", new MyHandler(text));
+            server.setExecutor(null); // creates a default executor
+            server.start();
+
+            // Open default browser to the server's URL
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                URI uri = new URI("http://localhost:8000/");
+                Desktop.getDesktop().browse(uri);
+            }
+        }
+
+        static class MyHandler implements HttpHandler {
+            private String text;
+
+            public MyHandler(String text) {
+                this.text = text;
+            }
+
+            @Override
+            public void handle(HttpExchange t) throws IOException {
+                String response = this.text;
+                t.sendResponseHeaders(200, response.length());
+                OutputStream os = t.getResponseBody();
+                os.write(response.getBytes());
+                os.close();
+            }
+        }
+
+        public void stopServer() {
+            server.stop(0);
         }
     }
 }
