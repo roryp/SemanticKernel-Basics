@@ -13,7 +13,7 @@ To get started with the project, follow these steps:
 3. Update the `client.azureopenai.key` and `client.azureopenai.endpoint` properties with your Azure OpenAI key and URL respectively. These credentials are required to access the Semantic Kernel Planner API.
 
 
-## explanation
+## Explanation
 
 The `DemoStepwisePlanner` class is a comprehensive demonstration of the Semantic Kernel Planner's capabilities. It showcases how to create an instance of `OpenAIAsyncClient`, build a `TextCompletion` instance, and import skills from a directory. It also demonstrates how to create a `StepwisePlanner` instance, create a `Plan` instance, and invoke it asynchronously. 
 
