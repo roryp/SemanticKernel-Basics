@@ -12,6 +12,15 @@ To get started with the project, follow these steps:
 2. Copy the file `conf.properties.example` to `conf.properties` (located in the `src/main/resources` directory).
 3. Update the `client.azureopenai.key` and `client.azureopenai.endpoint` properties with your Azure OpenAI key and URL respectively. These credentials are required to access the Semantic Kernel Planner API.
 
+
+## explanation
+
+The `DemoStepwisePlanner` class is a comprehensive demonstration of the Semantic Kernel Planner's capabilities. It showcases how to create an instance of `OpenAIAsyncClient`, build a `TextCompletion` instance, and import skills from a directory. It also demonstrates how to create a `StepwisePlanner` instance, create a `Plan` instance, and invoke it asynchronously. 
+
+In addition, the `DemoStepwisePlanner` class includes inner classes `Emailer` and `ResultDisplayServer` that demonstrate how to retrieve an email address for a given user name, send an email with a subject, message, and email address, and display the email content in a browser.
+
+![Diagram](./img/diagram.png)
+
 ## Usage
 
 The main class to demo the Semantic Kernel Planner is `DemoStepwiseplanner`. This class provides a comprehensive demonstration of the planner's capabilities and showcases its usage in various scenarios. To run the demo, execute the following command:
