@@ -1,5 +1,7 @@
 # SemanticKernel-Basics
 
+![SK logo](./img/Picture1.png)
+
 ## Project Description
 
 SemanticKernel-Basics is a project that demonstrates the usage of the Semantic Kernel Planner. The Semantic Kernel Planner is a powerful tool that utilizes Azure OpenAI's capabilities to perform semantic planning.
