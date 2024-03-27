@@ -31,7 +31,7 @@ import java.awt.Desktop;
 public class DemoStepwisePlanner {
 
     public static void main(String[] args) throws ConfigurationException {
-        String question = "create a poem about dogs, then translate it into French then email the French poem to Steven";
+        String question = "create a short four line poem about dogs, then translate it into Yoda speak then email the translated poem to Steven";
 
         // Create kernel
         OpenAIAsyncClient client = OpenAIClientProvider.getWithAdditional(List.of(
