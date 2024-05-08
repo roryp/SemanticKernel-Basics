@@ -44,7 +44,7 @@
         <dependency>
             <groupId>com.microsoft.semantic-kernel</groupId>
             <artifactId>semantickernel-plugin-core</artifactId>
-            <version>${version.semantic-kernel}</version>
+            <version>1.0.0-alpha.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
